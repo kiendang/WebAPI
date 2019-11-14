@@ -35,10 +35,7 @@ import org.ohdsi.webapi.shiro.management.datasource.SourceIdAccessor;
 import org.ohdsi.webapi.source.Source;
 import org.ohdsi.webapi.source.SourceDaimon;
 import org.ohdsi.webapi.source.SourceInfo;
-import org.ohdsi.webapi.util.NameUtils;
-import org.ohdsi.webapi.util.ExceptionUtils;
-import org.ohdsi.webapi.util.PreparedStatementRenderer;
-import org.ohdsi.webapi.util.SessionUtils;
+import org.ohdsi.webapi.util.*;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
@@ -311,6 +308,7 @@ public class CohortDefinitionService extends AbstractDaoService {
     {
       options = new CohortExpressionQueryBuilder.BuildExpressionQueryOptions();
     }
+    CohortUtils.formatCustomDates(request.expression);
     String expressionSql = queryBuilder.buildExpressionQuery(request.expression, options);
     result.templateSql = SqlRender.renderSql(expressionSql, null, null);
 

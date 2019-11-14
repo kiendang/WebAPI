@@ -26,11 +26,7 @@ import org.ohdsi.sql.SqlTranslate;
 import org.ohdsi.webapi.common.generation.CancelableTasklet;
 import org.ohdsi.webapi.source.Source;
 import org.ohdsi.webapi.source.SourceRepository;
-import org.ohdsi.webapi.util.CancelableJdbcTemplate;
-import org.ohdsi.webapi.util.JobUtils;
-import org.ohdsi.webapi.util.PreparedStatementRenderer;
-import org.ohdsi.webapi.util.SessionUtils;
-import org.ohdsi.webapi.util.SourceUtils;
+import org.ohdsi.webapi.util.*;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.StoppableTasklet;
@@ -83,6 +79,7 @@ public class GenerateCohortTasklet extends CancelableTasklet implements Stoppabl
       TransactionStatus initStatus = this.transactionTemplate.getTransactionManager().getTransaction(requresNewTx);
       CohortDefinition def = this.cohortDefinitionRepository.findOne(defId);
       CohortExpression expression = mapper.readValue(def.getDetails().getExpression(), CohortExpression.class);
+      CohortUtils.formatCustomDates(expression);
       this.transactionTemplate.getTransactionManager().commit(initStatus);
 
       CohortExpressionQueryBuilder.BuildExpressionQueryOptions options = new CohortExpressionQueryBuilder.BuildExpressionQueryOptions();
